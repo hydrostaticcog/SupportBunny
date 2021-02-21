@@ -49,10 +49,10 @@ module.exports = async (client) => {
         .addField('Commands Loaded', cmdCount, true)
         .addField(`Uptime`, uptime, true)
         .addField(`Library`, 'JavaScript (JS)', true)
-        .setFooter(`This message should update every 30 seconds. Last Update`)
+        .setFooter(`This message should update every 15 minutes. Last Update`)
         .setTimestamp()
     channelID.send(embed).then(m => {
       m.delete({timeout: 29990})
     })
-  }, 30000);
+  }, 900000);
 };
