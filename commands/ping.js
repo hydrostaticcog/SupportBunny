@@ -1,4 +1,3 @@
-
 Logger = require('../modules/logger');
 logger = new Logger('main');
 module.exports ={
