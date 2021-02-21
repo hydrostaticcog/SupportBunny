@@ -23,9 +23,9 @@ module.exports = async (client) => {
     index++;
   }, 20000)
 
-  const channelID = client.channels.cache.find(ch => ch.id === '812868441072992326')
+  const channelID = client.channels.cache.find(ch => ch.id === '812868880086597712')
   let time = Date.now();
-  await client.api.channels('812868441072992326').typing.post()
+  await client.api.channels('812868880086597712').typing.post()
   let ping = Date.now() - time;
   let guildCount = client.guilds.cache.size
   let userCount = client.users.cache.size
