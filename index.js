@@ -9,6 +9,9 @@ Logger = require('./modules/logger');
 client.logger = new Logger('main');
 client.commands = new Enmap();
 client.aliases = new Enmap();
+const db = require('quick.db')
+
+db.set(`on`, 'true')
 
 fs.readdir("./events/", (err, files) => {
   client.logger.info(`Attempting to load events`);
