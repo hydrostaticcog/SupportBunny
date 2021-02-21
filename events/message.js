@@ -3,13 +3,16 @@ logger = new Logger('main');
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const db = require('quick.db')
+const config = require('../config.json')
 
 module.exports = (client, message) => {
     // Ignore all bots
     if (message.author.bot) return;
 
-    // Ignore messages not starting with the prefix (in config.json)
-    if (message.content.indexOf(db.get(`prefix.${message.guild.id}`)) !== 0) return;
+    // Ignore messages not starting with the prefix
+    if (message.content.indexOf(db.get(`prefix.${message.guild.id}`)) !== 0) {
+      if (message.content.indexOf(config.prefix) !== 0) return;
+    }
   
     // Our standard argument/command name definition.
     const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
