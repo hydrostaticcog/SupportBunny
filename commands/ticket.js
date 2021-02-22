@@ -7,6 +7,8 @@ module.exports ={
     description: "creates/handles tickets",
     args: true,
     execute(message, args){
+        if (!args[0]) return message.channel.send(`What would you like to do with the ticket (open, close, resolve, etc.)`)
+        
         if (args[0] == 'create') {
             var hasTicket = db.get(`ticket.${message.guild.id}.${message.author.id}`)
             if (hasTicket == 0) {
