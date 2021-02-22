@@ -6,6 +6,7 @@ module.exports ={
     description: "sets prefix",
     args: true,
     execute(message, args){
+        if (!args[0]) return message.channel.send('Please specify a new prefix')
         if (message.member.roles.cache.find(r => r.name === "Admin")) {
             if (args[0] == 'default') {
                 db.set(`prefix.${message.guild.id}`, '#')
