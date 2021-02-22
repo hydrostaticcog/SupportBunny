@@ -4,14 +4,39 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 const db = require('quick.db')
 const config = require('../config.json')
+const { MessageEmbed } = require('discord.js')
 
 module.exports = (client, message) => {
     // Ignore all bots
     if (message.author.bot) return;
 
     // Ignore messages not starting with the prefix
-    if (message.content.indexOf(db.get(`prefix.${message.guild.id}`)) !== 0) {
-      if (message.content.indexOf(config.prefix) !== 0) return;
+    const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
+    let pref = db.get(`prefix.${message.guild.id}`);
+
+    let prefix;
+
+    if (!pref) {
+        prefix = message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : config.prefix; // If the server doesn't have any custom prefix, return default.
+    } else {
+        prefix = message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : pref;
+    }
+
+    const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`);
+
+    if(!prefixRegex.test(message.content)) return;
+
+    const [, matchedPrefix] = message.content.match(prefixRegex);
+
+    if (message.content === `<@!${client.user.id}>`) {
+        const embed = new MessageEmbed()
+            .setTitle(client.user.username)
+            .setDescription(`Hi! I'm ${client.user.username}, and I handle support tickets here!`)
+            .addField('Prefix', prefix)
+            .setFooter(`The prefix can be changed with ${prefix}prefix <new prefix>. It can be set to the default with ${prefix}prefix default`)
+            .setTimestamp()
+        message.channel.send(embed)
     }
   
     // Our standard argument/command name definition.
@@ -23,7 +48,7 @@ module.exports = (client, message) => {
 
     logger.info(`Command ${db.get(`prefix.${message.guild.id}`)}${command} requested by ${message.author.tag}`)
     // If that command doesn't exist, silently exit and do nothing
-    if (!cmd) return logger.error(`Command ${db.get(`prefix.${message.guild.id}`)}${command} not found`);
+    if (!cmd) return
   
     // Run the command
     cmd.execute(message, args);

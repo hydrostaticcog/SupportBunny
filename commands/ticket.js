@@ -1,6 +1,7 @@
 Logger = require('../modules/logger');
 logger = new Logger('main');
 const db = require('quick.db')
+const Discord = require('discord.js')
 module.exports ={
     name: "ticket",
     description: "creates/handles tickets",
@@ -11,9 +12,9 @@ module.exports ={
             if (hasTicket == 0) {
                 var supportRole = message.guild.roles.cache.find(role => role.name === "Support");
                 var everyone = message.guild.roles.cache.find(role => role.name === "@everyone");
-                var botID = message.guild.roles.cache.find(role => role.name === "TicketBunny");
+                var botID = message.guild.roles.cache.find(role => role.name === "SupportBunny Beta");
                 var ticketNum = db.get(`ticketNum.${message.guild.id}`)
-                let category = message.guild.channels.cache.find(cat=> cat.name === 'Support')
+                let category = message.guild.channels.cache.find(cat=> cat.name === 'support')
                 var channel1 = message.guild.channels.create(`ticket-${ticketNum}`, {
                     type: "text",
                     permissionOverwrites: [

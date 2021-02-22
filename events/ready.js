@@ -4,13 +4,12 @@ const config = require("../config.json")
 const Discord = require('discord.js')
 
 module.exports = async (client) => {
-  console.log(`[API] Logged in as ${client.user.username}. Guild Count: ${client.guilds.cache.size}`);
+  logger.info(`[API] Logged in as ${client.user.username}. Guild Count: ${client.guilds.cache.size}`);
 
   const arrayOfStatus = [
     `${client.guilds.cache.size} Servers`,
     `${client.channels.cache.size} Channels`,
     `${client.users.cache.size} Users`,
-    `${client.config.prefix}help | ${client.config.prefix}invite`
   ];
 
   let index = 0;
@@ -23,9 +22,9 @@ module.exports = async (client) => {
     index++;
   }, 20000)
 
-  const channelID = client.channels.cache.find(ch => ch.id === '812868880086597712')
+  const channelID = client.channels.cache.find(ch => ch.id === '813162388031012865')
   let time = Date.now();
-  await client.api.channels('812868880086597712').typing.post()
+  await client.api.channels('813162388031012865').typing.post()
   let ping = Date.now() - time;
   let guildCount = client.guilds.cache.size
   let userCount = client.users.cache.size
@@ -49,10 +48,10 @@ module.exports = async (client) => {
         .addField('Commands Loaded', cmdCount, true)
         .addField(`Uptime`, uptime, true)
         .addField(`Library`, 'JavaScript (JS)', true)
-        .setFooter(`This message should update every 15 minutes. Last Update`)
+        .setFooter(`This message should update every 30 seconds. Last Update`)
         .setTimestamp()
     channelID.send(embed).then(m => {
       m.delete({timeout: 29990})
     })
-  }, 900000);
+  }, 30000);
 };
