@@ -5,6 +5,9 @@ module.exports ={
     description: "responds with bot latency",
     args: false,
     execute(message, args){
-        message.channel.send(`Pong! Bot latency is ${Date.now() - message.createdTimestamp}ms`)
+        message.channel.send('Calculating ping...').then((resultMessage) => {
+        const ping = resultMessage.createdTimestamp - message.createdTimestamp
+  
+        resultMessage.edit(`:ping_pong: Pong! **Bot Latency:** ${ping}ms, **API Latency:** ${client.ws.ping}ms`)
     }
 }
