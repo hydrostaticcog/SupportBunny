@@ -6,7 +6,7 @@ const db = require('quick.db')
 const config = require('../config.json')
 const { MessageEmbed } = require('discord.js')
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
     // Ignore all bots
     if (message.author.bot) return;
 
@@ -51,5 +51,5 @@ module.exports = (client, message) => {
     if (!cmd) return
   
     // Run the command
-    cmd.execute(client, message, args);
+    cmd.run(client, message, args);
   };

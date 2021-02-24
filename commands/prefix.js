@@ -2,10 +2,13 @@ Logger = require('../modules/logger');
 logger = new Logger('main');
 const db = require('quick.db')
 module.exports ={
-    name: "prefix",
-    description: "sets prefix",
-    args: true,
-    execute(client, message, args){
+    info: {
+        name: "prefix",
+        description: "controls guild specific prefixes",
+        args: true,
+    },
+
+    run: async function(client, message, args){
         if (!args[0]) return message.channel.send('Please specify a new prefix')
         if (message.member.hasPermission('ADMINISTATOR')) {
             if (args[0] == 'default') {
