@@ -26,19 +26,20 @@ module.exports = {
 
             
             **Help Pages**
-**Page 1:** Ticket Commands
-**Page 2:** Admin help
-**Page 3:** Credits
+**Page 1:** :paper: Help Menu
+**Page 2:** :ticket: Ticket Commands
+**Page 3:** :busts_in_silhouette: Admin Commands
+**Page 4:** Credits
             `, `
-            Ticket Commands
-            \`${prefix}ticket open/create\` - Create support ticket
+            :ticket: **Ticket Help**
+            \`${prefix}ticket open/create\` - Open a Ticket
             \`${prefix}ticket resolve\` - Close a support ticket
             `, `
-            Admin Help
-            \`${prefix}ticket init\` - Initializes \`ticket\` command
-            \`${prefix}prefix <your prefix>\` - changes guild prefix
+            :busts_in_silhouette: **Admin Help**
+            \`${prefix}ticket init\` - Initializes Ticket System
+            \`${prefix}prefix <your prefix>\` - Change the Server-Wide Prefix
             `, `
-            Credits
+            **Credits:**
             hydrostaticcog - Lead Dev/did most of the programming
             kai2342340gamer - Contributed advice/support server
             `]
