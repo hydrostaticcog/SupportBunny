@@ -7,9 +7,8 @@ module.exports = async (client) => {
   logger.info(`[API] Logged in as ${client.user.username}. Guild Count: ${client.guilds.cache.size}`);
 
   const arrayOfStatus = [
-    `${client.guilds.cache.size} Servers`,
-    `${client.channels.cache.size} Channels`,
-    `${client.users.cache.size} Users`,
+    `${client.guilds.cache.size} Servers | ${client.channels.cache.size} Channels | ${client.users.cache.size} Users | ${client.config.prefix}help - ${client.config.prefix}invite`,
+    `${client.guilds.cache.size} Servers | ${client.channels.cache.size} Channels | ${client.users.cache.size} Users | ${client.config.prefix}help - ${client.config.prefix}invite`
   ];
 
   let index = 0;

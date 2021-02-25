@@ -9,6 +9,7 @@ const { MessageEmbed } = require('discord.js')
 module.exports = async (client, message) => {
     // Ignore all bots
     if (message.author.bot) return;
+    if (message.channel.type === 'dm') return message.channel.send('I don\'t support DMs due to Discord\'s limitations!')
 
     // Ignore messages not starting with the prefix
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);

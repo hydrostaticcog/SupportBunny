@@ -25,23 +25,29 @@ module.exports ={
             return
         } if (args[0] == 'init') {
             if (message.member.hasPermission('ADMINISTATOR')) {
-                const filter = msg => msg.author.id == message.author.id;
-                const options = {
-                    maxMatches: 1
-                };
-                message.channel.send(`Thanks for choosing SupportBunny! Please start by telling us the name of your support category (EXACT NAME)`)
-                let collector = await message.channel.awaitMessages(filter, options);
-                let answer = collector.first().content;
-                console.log(answer)
-                db.set(`ticketSettings.${message.guild.id}.category`, answer)
-                await message.reply(`Support Category ${answer} set!`)
-                message.channel.send('Please tell us the name of your support role (EXACT NAME)')
-                let collector1 = await message.channel.awaitMessages(filter, options);
-                let answer1 = collector1.first().content;
-                db.set(`ticketSettings.${message.guild.id}.support`, answer)
-                await message.reply(`Support Role ${answer} set!`)
-                db.set(`ticketSettings.${message.guild.id}.isInit`, 1)
-                message.channel.send(`SupportBunny Core initiated`)
+                const questions = [
+                    'What is the name of your support role (EXACT NAME)?'
+                ]
+                const dbID = [
+                    'supportRole'
+                ]
+                let counter = 0
+                const filter = m => m.author.id === message.author.id
+                const collector = new Discord.MessageCollector(message.channel, filter, {max: questions.length})
+                message.channel.send(`Thanks for choosing SupportBunny! Please start by answering some questions.`)
+                message.channel.send(questions[counter++])
+                collector.on('collect', (m) => {
+                    message.channel.send(questions[counter++])
+                })
+                collector.on('end', (collected) => {
+                    let counter = 0
+                    collected.forEach((value) => {
+                        let countNum = counter++
+                        db.set(`ticketSettings.${message.guild.id}.isInit`, 1)
+                        message.channel.send(`SupportBunny Core Initiated`)
+                        return
+                    })
+                })
             } else {
                 message.channel.send('You dont have perms for that!')
             }
@@ -79,8 +85,7 @@ module.exports ={
                             id: everyone,
                             deny: ['VIEW_CHANNEL']
                         }
-                    ],
-                    parent: category.id
+                    ]
                 })
                 var channel = message.guild.channels.cache.find(channel => channel.name === `ticket-${ticketNum}`)
                 var newNum = ticketNum + 1
@@ -93,7 +98,7 @@ module.exports ={
         } if (args[0] == 'reset') {
             if (message.member.hasPermission('ADMINISTATOR')) {
                 db.set(`ticketNum.${message.guild.id}`, 1)
-                message.channel.send('Ticket Numbers Reset!')
+                message.channel.send('SupportBunny Core Reset!')
             } else {
                 message.channel.send('You dont have perms for that!')
             }
@@ -114,7 +119,7 @@ module.exports ={
         if (args[0] == 'deinit') {
             if (message.member.hasPermission('ADMINISTATOR')) {
                 db.set(`ticketSettings.${message.guild.id}.isInit`, 0)
-                message.channel.send('Ticket Numbers Deinitialized!')
+                message.channel.send('SupportBunny Core Deinitialized!')
             } else {
                 message.channel.send('You dont have perms for that!')
             }

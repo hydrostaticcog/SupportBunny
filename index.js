@@ -11,8 +11,6 @@ client.commands = new Enmap();
 client.aliases = new Enmap();
 const db = require('quick.db')
 
-db.set(`on`, 'true')
-
 fs.readdir("./events/", (err, files) => {
   client.logger.info(`Attempting to load events`);
   if (err) return client.logger.error(err);
