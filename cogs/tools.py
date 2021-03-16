@@ -16,7 +16,7 @@ class Tools(Cog):
     @commands.command()
     async def invite(self, ctx: MyContext):
         inviteEmbed = discord.Embed(title='SupportBunny Invite Links', color=0x1abc9c)
-        inviteEmbed.add_field(name='Bot Invite', value='https://discord.com/oauth2/authorize?client_id=812870733570768937&scope=bot&permissions=335801458', inline=True)
+        inviteEmbed.add_field(name='Bot Invite', value='https://discord.com/oauth2/authorize?client_id=812870733570768937&scope=bot&permissions=2146827775', inline=True)
         inviteEmbed.add_field(name='Support Server Invite', value='https://discord.gg/2uGynhee4K')
         inviteEmbed.set_footer(text=f'Current Bot Version: v{release}')
         await ctx.send(embed=inviteEmbed)
