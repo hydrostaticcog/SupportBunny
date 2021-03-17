@@ -31,5 +31,6 @@ class EmbedHelpCommand(commands.HelpCommand):
     async def send_bot_help(self, mapping):
         embed = discord.Embed(title="SupportBunny's Commands", colour=0x1abc9c)
         embed.add_field(name='Ticket', value='Open a ticket with `.ticket open <topic>`', inline=False)
+        embed.add_field(name='Suggest', value='If you want a feature added, you can suggest it with `.suggest <suggestion>`.')
         embed.add_field(name='Initialize (admins only)', value='Admins can setup their servers with this command', inline=False)
         await self.get_destination().send(embed=embed)
