@@ -12,22 +12,21 @@ active_suggestions = {}
 class Suggestions(Cog):
     @commands.command()
     async def suggest(self, ctx: MyContext, *, suggestion):
-        suggestion = " ".join(suggestion)
         hydro: discord.User = self.bot.get_user(711960088553717781)
         hydro_mention = hydro.mention
         embed = discord.Embed(title='Suggestion', description=f'By {ctx.author.mention}\n React with :white_check_mark: to vote for this suggestion. React with :x: to downvote this suggestion. {hydro_mention} can deny this suggestion with :octagonal_sign:.', color=0x1abc9c)
         embed.add_field(name='Suggestion', value=suggestion, inline=False)
         try:
-            channel = self.bot.get_channel(816121030434488321)
-            suggestmsg: discord.Message = await channel.send(embed=embed)
-            await suggestmsg.add_reaction(':white_check_mark')
-            await suggestmsg.add_reaction(':x:')
-            await suggestmsg.add_reaction(':octagonal_sign:')
+            suggestion_channel = self.bot.get_channel(816121030434488321)
+            msg: discord.Message = await suggestion_channel.send(embed=embed)
+            await msg.add_reaction("✅")
+            await msg.add_reaction("❌")
+            await msg.add_reaction("🛑")
         except discord.HTTPException:
-            await ctx.send('Could not send suggestion due to Discord Error.')
+            await ctx.send("Failed to send suggestion due to a Discord error. Try again.")
         else:
-            await ctx.send('Suggestion Sent')
-            active_suggestions[suggestmsg.id] = suggestion
+            await ctx.send("Sent suggestion successfully.")
+            active_suggestions[msg.id] = suggestion
 
         
         @commands.Cog.listener()
