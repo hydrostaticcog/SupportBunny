@@ -1,4 +1,3 @@
-from utils.bot_class import get_prefix
 from discord.ext import commands
 import discord
 import json

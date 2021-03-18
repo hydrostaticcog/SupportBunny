@@ -1,5 +1,4 @@
-from discord import message
-from utils.bot_class import get_prefix
+
 import discord
 import json
 import datetime
@@ -45,6 +44,7 @@ class SupportCore(Cog):
         date = datetime.date.today()
         embed = discord.Embed(title=f'Support Ticket #{ticketNum}', color=0x2f3136)
         embed.add_field(name='Topic', value=topic, inline=False)
+        embed.add_field(name='Support', value='You can add other people here with `.ticket adduser <@user>`.\nYou can also remove them with `.ticket rmuser <@user>`.', inline=False)
         embed.add_field(name='Resolving Ticket', value='You can resolve this ticket with `.ticket resolve`.')
         embed.set_footer(text=f'Ticket #{ticketNum} created by {ctx.author.name} on {date.month}/{date.day}/{date.year}')
         await channel.send(f"{supportRole.mention}, new ticket from {ctx.author.mention}", embed=embed)
@@ -54,7 +54,10 @@ class SupportCore(Cog):
         db_user = await get_from_db(ctx.author)
         ticketNum = db_user.ticketNum
         channel = get(ctx.guild.channels, name=f'ticket-{ticketNum}')
-        await channel.delete()
+        try:
+            await channel.delete()
+        except discord.ext.commands.errors.CommandInvokeError:
+            await ctx.send("You can't close this channel")
         db_user.ticketNum = 0
         await db_user.save()
             
@@ -63,7 +66,29 @@ class SupportCore(Cog):
     async def forceclose(self, ctx: MyContext, ticketNum):
         channel = get(ctx.guild.channels, name=f'ticket-{ticketNum}')
         await channel.delete()
+
+    @ticket.command()
+    async def adduser(self, ctx: MyContext, user: discord.User):
+        db_user = await get_from_db(ctx.author)
+        channelname= ctx.channel.name
+        ticketNum1 = db_user.ticketNum
+        if (channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels):
+            await ctx.channel.set_permissions(user, view_channel=True)
+            await ctx.send(f'{user.mention} added to the channel!')
+        else:
+            await ctx.send('You are not in a channel you own!')
             
+
+    @ticket.command()
+    async def rmuser(self, ctx: MyContext, user: discord.User):
+        db_user = await get_from_db(ctx.author)
+        channelname= ctx.channel.name
+        ticketNum1 = db_user.ticketNum
+        if (channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels):
+            await ctx.channel.set_permissions(user, view_channel=False)
+            await ctx.send(f'{user.mention} removed from the channel!')
+        else:
+            await ctx.send('You are not in a channel you own!')
 
 
 
