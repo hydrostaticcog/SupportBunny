@@ -1,4 +1,5 @@
 
+from os import name
 import discord
 import json
 import datetime
@@ -14,11 +15,17 @@ from utils.models import get_from_db
 class SupportCore(Cog):
     @commands.group()
     async def ticket(self, ctx: MyContext):
+        """
+        Create/manage tickets!
+        """
         if not ctx.invoked_subcommand:
-            await ctx.send(f"Support Bunny's ticket command!\nSyntax: `&ticket <option>`")
+            await ctx.send_help(ctx.command)
 
     @ticket.command(aliases=['create'])
     async def open(self, ctx: MyContext, *, topic='Not Specified'):
+        """
+        Open a support ticket!
+        """
         db_guild = await get_from_db(ctx.guild)
         if (db_guild.isInit < 2):
             await ctx.send(f"It looks like you haven't setup your guild yet, please run `.initialize` to set it up!")
@@ -28,8 +35,8 @@ class SupportCore(Cog):
         db_user = await get_from_db(ctx.author)
         ticketNum = db_guild.ticketNum
         db_user.ticketNum = ticketNum
-        supportCat = get(ctx.guild.categories, id=db_guild.supportCat)
-        supportRole = get(ctx.guild.roles, id=db_guild.supportRole)
+        supportCat = get(ctx.guild.categories, name=db_guild.supportCat)
+        supportRole = get(ctx.guild.roles, name=db_guild.supportRole)
         botRole = get(ctx.guild.roles, name=self.bot.user.name)
         channelName = f'ticket-{ticketNum}'
         await ctx.guild.create_text_channel(channelName, category=supportCat)
@@ -51,6 +58,9 @@ class SupportCore(Cog):
 
     @ticket.command(aliases=['resolve'])
     async def close(self, ctx: MyContext):
+        """
+        Closes a support ticket
+        """
         db_user = await get_from_db(ctx.author)
         ticketNum = db_user.ticketNum
         channel = get(ctx.guild.channels, name=f'ticket-{ticketNum}')
@@ -64,11 +74,17 @@ class SupportCore(Cog):
     @commands.has_guild_permissions(manage_channels=True)
     @ticket.command()
     async def forceclose(self, ctx: MyContext, ticketNum):
+        """
+        Forces a specified ticket to be closed
+        """
         channel = get(ctx.guild.channels, name=f'ticket-{ticketNum}')
         await channel.delete()
 
     @ticket.command()
     async def adduser(self, ctx: MyContext, user: discord.User):
+        """
+        Adds a user to the ticket
+        """
         db_user = await get_from_db(ctx.author)
         channelname= ctx.channel.name
         ticketNum1 = db_user.ticketNum
@@ -81,6 +97,9 @@ class SupportCore(Cog):
 
     @ticket.command()
     async def rmuser(self, ctx: MyContext, user: discord.User):
+        """
+        Removes a user from the ticket
+        """
         db_user = await get_from_db(ctx.author)
         channelname= ctx.channel.name
         ticketNum1 = db_user.ticketNum
