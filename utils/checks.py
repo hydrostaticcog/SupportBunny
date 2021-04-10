@@ -27,7 +27,7 @@ def is_in_server(must_be_in_guild_id):
     def predicate(ctx):
         if not ctx.guild:
             raise commands.NoPrivateMessage()
-        elif ctx.guild.id != must_be_in_guild_id:
+        if ctx.guild.id != must_be_in_guild_id:
             raise NotInServer(must_be_in_guild_id=must_be_in_guild_id)
         return True
 
@@ -39,14 +39,13 @@ def needs_access_level(required_access):
 
         if not ctx.guild:
             raise commands.NoPrivateMessage()
-        else:
-            db_user = await get_from_db(ctx.author)
+        db_user = await get_from_db(ctx.author)
 
-            access = db_user.get_access_level()
-            if access >= required_access:
-                return True
-            else:
-                raise AccessTooLow(current_access=access, required_access=required_access)
+        access = db_user.get_access_level()
+        if access >= required_access:
+            return True
+        else:
+            raise AccessTooLow(current_access=access, required_access=required_access)
 
     return commands.check(predicate)
 
