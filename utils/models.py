@@ -1,7 +1,5 @@
 import discord
 import typing
-from discord.enums import DefaultAvatar
-from discord.mentions import default
 from tortoise import Tortoise, fields
 from tortoise.models import Model
 
