@@ -2,7 +2,6 @@ import asyncio
 import io
 
 import discord
-import toml
 import typing
 from discord import Message
 from discord.errors import InvalidArgument

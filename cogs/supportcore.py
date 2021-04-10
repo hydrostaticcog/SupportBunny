@@ -1,11 +1,8 @@
 
-from os import name
 import discord
-import json
 import datetime
 
 from discord.ext import commands
-from discord.ext.commands import bot
 from discord.utils import get
 
 from utils.ctx_class import MyContext

@@ -1,8 +1,6 @@
 '''
 Credit to 0/0#0001, he wrote this.
 '''
-
-import asyncio
 from typing import Optional
 from datetime import datetime
 

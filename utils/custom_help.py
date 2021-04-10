@@ -3,7 +3,6 @@ import discord
 import json
 
 from utils.config import load_config
-from utils.models import get_from_db
 
 config = load_config()
 
