@@ -20,8 +20,8 @@ class BotSetup(Cog):
                 return
             else:
                 embed = discord.Embed(title='Setting up SupportBunny', color=0x1abc9c)
-                embed.add_field(name='Support Role', value="Please create a support role, and then run `.initialize role <EXACT ROLE NAME>`.", inline=False)
-                embed.add_field(name='Support Category', value="Please create a channel for the game to take place in, and then run `.initialize category <EXACT CATEGORY NAME>`.", inline=False)
+                embed.add_field(name='Support Role', value="Please create a support role, and then run `.initialize role <ROLE ID>`.", inline=False)
+                embed.add_field(name='Support Category', value="Please create a channel for the game to take place in, and then run `.initialize category <CATEGORY ID>`.", inline=False)
                 await ctx.send(embed=embed)
     
     @initialize.command()
