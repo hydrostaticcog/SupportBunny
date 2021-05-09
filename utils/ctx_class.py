@@ -2,7 +2,6 @@ import asyncio
 import io
 
 import discord
-import toml
 import typing
 from discord import Message
 from discord.errors import InvalidArgument
@@ -35,14 +34,13 @@ class MyContext(commands.Context):
 
             if file is not None and files is not None:
                 raise InvalidArgument('Cannot pass both file and files parameter to send()')
-            elif file is not None:
+            if file is not None:
                 files = [message_file, file]
                 file = None
             elif files is not None:
                 if len(files) == 10:
                     raise InvalidArgument('Content is too big, and too many files were provided')
-                else:
-                    files = [message_file] + files
+                files = [message_file] + files
             else:
                 file = message_file
 

@@ -1,11 +1,8 @@
 
-from os import name
 import discord
-import json
 import datetime
 
 from discord.ext import commands
-from discord.ext.commands import bot
 from discord.utils import get
 
 from utils.ctx_class import MyContext
@@ -35,8 +32,8 @@ class SupportCore(Cog):
         db_user = await get_from_db(ctx.author)
         ticketNum = db_guild.ticketNum
         db_user.ticketNum = ticketNum
-        supportCat = get(ctx.guild.categories, name=db_guild.supportCat)
-        supportRole = get(ctx.guild.roles, name=db_guild.supportRole)
+        supportCat = get(ctx.guild.categories, id=db_guild.supportCat)
+        supportRole = get(ctx.guild.roles, id=db_guild.supportRole)
         botRole = get(ctx.guild.roles, name=self.bot.user.name)
         channelName = f'ticket-{ticketNum}'
         await ctx.guild.create_text_channel(channelName, category=supportCat)
