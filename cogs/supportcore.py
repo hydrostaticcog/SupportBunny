@@ -41,7 +41,7 @@ class SupportCore(Cog):
         await channel.set_permissions(supportRole, view_channel=True, read_message_history=True, send_messages=True)
         await channel.set_permissions(ctx.guild.default_role, view_channel=False)
         await channel.set_permissions(ctx.author, view_channel=True, read_message_history=True, send_messages=True)
-        await channel.set_permissions(botRole, view_channel=True, send_messages=true)
+        await channel.set_permissions(botRole, view_channel=True, send_messages=True)
         db_guild.ticketNum = ticketNum + 1
         await db_guild.save()
         await db_user.save()
