@@ -49,9 +49,7 @@ class TabularData:
 
     def render(self):
         """Renders a table in rST format.
-
         Example:
-
         +-------+-----+
         | Name  | Age |
         +-------+-----+

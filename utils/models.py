@@ -11,8 +11,6 @@ if typing.TYPE_CHECKING:
     from utils.ctx_class import MyContext
 
 
-# TODO : https://github.com/long2ice/aerich
-
 class DiscordGuild(Model):
     id = fields.IntField(pk=True)
     discord_id = fields.BigIntField(index=True)

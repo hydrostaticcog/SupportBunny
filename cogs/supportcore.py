@@ -27,7 +27,7 @@ class SupportCore(Cog):
         Open a support ticket!
         """
         db_guild = await get_from_db(ctx.guild)
-        if (db_guild.isInit < 2):
+        if db_guild.isInit < 2:
             await ctx.send(f"It looks like you haven't setup your guild yet, please run `.initialize` to set it up!")
             await ctx.message.delete()
             return
@@ -41,10 +41,10 @@ class SupportCore(Cog):
         channelName = f'ticket-{ticketNum}'
         await ctx.guild.create_text_channel(channelName, category=supportCat)
         channel = get(ctx.guild.channels, name=channelName)
-        await channel.set_permissions(supportRole, view_channel=True)
+        await channel.set_permissions(supportRole, view_channel=True, read_message_history=True, send_messages=True)
         await channel.set_permissions(ctx.guild.default_role, view_channel=False)
-        await channel.set_permissions(ctx.author, view_channel=True)
-        await channel.set_permissions(botRole, view_channel=True)
+        await channel.set_permissions(ctx.author, view_channel=True, read_message_history=True, send_messages=True)
+        await channel.set_permissions(botRole, view_channel=True, send_messages=true)
         db_guild.ticketNum = ticketNum + 1
         await db_guild.save()
         await db_user.save()
@@ -68,16 +68,18 @@ class SupportCore(Cog):
             await channel.delete()
         except discord.ext.commands.errors.CommandInvokeError:
             await ctx.send("You can't close this channel")
+        except discord.HTTPException:
+            await ctx.send('Huh, this ticket is already closed.')
         db_user.ticketNum = 0
         await db_user.save()
             
     @commands.has_guild_permissions(manage_channels=True)
     @ticket.command()
-    async def forceclose(self, ctx: MyContext, ticketNum):
+    async def forceclose(self, ctx: MyContext, ticketnum):
         """
         Forces a specified ticket to be closed
         """
-        channel = get(ctx.guild.channels, name=f'ticket-{ticketNum}')
+        channel = get(ctx.guild.channels, name=f'ticket-{ticketnum}')
         await channel.delete()
 
     @ticket.command()
@@ -88,8 +90,8 @@ class SupportCore(Cog):
         db_user = await get_from_db(ctx.author)
         channelname= ctx.channel.name
         ticketNum1 = db_user.ticketNum
-        if (channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels):
-            await ctx.channel.set_permissions(user, view_channel=True)
+        if channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels:
+            await ctx.channel.set_permissions(user, view_channel=True, read_message_history=True, send_messages=True)
             await ctx.send(f'{user.mention} added to the channel!')
         else:
             await ctx.send('You are not in a channel you own!')
@@ -103,7 +105,7 @@ class SupportCore(Cog):
         db_user = await get_from_db(ctx.author)
         channelname= ctx.channel.name
         ticketNum1 = db_user.ticketNum
-        if (channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels):
+        if channelname == f'ticket-{ticketNum1}' or ctx.message.author.guild_permissions.manage_channels:
             await ctx.channel.set_permissions(user, view_channel=False)
             await ctx.send(f'{user.mention} removed from the channel!')
         else:
