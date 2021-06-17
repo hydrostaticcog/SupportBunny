@@ -31,13 +31,10 @@ class Tools(Cog):
         """
         hydro: discord.User = await self.bot.fetch_user(711960088553717781)
         eyes: discord.User =  await self.bot.fetch_user(138751484517941259)
-        kai: discord.User = await self.bot.fetch_user(780818479376236555)
         hydro_mention: str = hydro.mention
         eyes_mention: str = eyes.mention
-        kai_mention: str = kai.mention
         creditsEmbed = discord.Embed(title='SupportBunny Credits', color=0x1abc9c)
         creditsEmbed.add_field(name='Lead Developer', value=hydro_mention)
-        creditsEmbed.add_field(name='Developer', value=kai_mention)
         creditsEmbed.add_field(name='Bot Framework Developer', value=eyes_mention)
         creditsEmbed.set_footer(text=f'Current Bot Version: v{release}')
         await ctx.send(embed=creditsEmbed)
